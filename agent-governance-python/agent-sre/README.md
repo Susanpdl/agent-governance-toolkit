@@ -73,7 +73,7 @@ Agent SRE directly addresses **[OWASP Agentic Security Initiative](https://githu
 |---|---|
 | **ASI08: Cascading Failures** | Circuit breakers, error budgets, fault isolation, chaos testing to prove resilience |
 | **ASI07: Uncontrolled Costs** | Per-task cost limits, org budgets, anomaly detection, auto-throttle, kill switch |
-| **ASI09: Lack of Observability** | 7 SLI types, OpenTelemetry export, 11 observability platform integrations |
+| **ASI09: Lack of Observability** | 7 SLI types, OpenTelemetry export, 11+ observability platform integrations (including Sentry) |
 | **ASI10: Inadequate Testing** | Chaos engineering with 9 fault templates, progressive delivery with shadow & canary |
 
 > See full [OWASP Agentic Top 10 mapping →](https://github.com/microsoft/agent-governance-toolkit/blob/master/docs/owasp-agentic-top10-mapping.md)
@@ -527,6 +527,7 @@ Agent SRE tells you *if it was within budget* and *what to do about it*.
 | **Braintrust** | ✅ Stable | Eval-driven monitoring and experiment export |
 | **Helicone** | ✅ Stable | Header injection for proxy-based cost/latency tracking |
 | **Datadog** | ✅ Stable | Metrics and events export for LLM monitoring |
+| **Sentry** | ✅ Stable | Incident, exception, and SLO breach export with offline + live modes |
 | **AgentOps** | ✅ Stable | Session recording and event tracking |
 | **W&B** | ✅ Stable | Experiment tracking with SRE metrics |
 | **MLflow** | ✅ Stable | Experiment logging with SLO data |
@@ -607,7 +608,7 @@ Tabs: SLO Health | Cost Management | Chaos Engineering | Incidents | Progressive
 - [Deployment Guide](docs/deployment.md) — Docker, integration patterns, production checklist
 - [Security Model](docs/security.md) — Threat model, attack vectors, best practices
 - [Concepts](docs/concepts.md) — Why agent reliability is different from infrastructure reliability
-- [Integration Guide](docs/integration-guide.md) — Use with Agent OS, AgentMesh, and OpenTelemetry
+- [Integration Guide](docs/integration-guide.md) — Use with Agent OS, AgentMesh, OpenTelemetry, and Sentry
 - [Comparison](docs/comparison.md) — Detailed comparison with other tools
 
 ---

@@ -67,3 +67,53 @@ exporter = OTelExporter(endpoint="http://localhost:4317")
 ```
 
 This means agent-level traces appear in the same Grafana/Jaeger dashboards as your infrastructure traces — but with agent-specific attributes like `agent.trust_score`, `agent.decision`, and `agent.policy_result`.
+
+## Sentry Export
+
+Use the Sentry integration when your incident workflow is centered on Sentry.
+`SentryExporter` supports:
+- **offline mode** for local testing (no client/DSN required)
+- **live mode** with a provided Sentry client or DSN-based initialization
+
+```python
+from agent_sre import SLO, ErrorBudget
+from agent_sre.slo.indicators import TaskSuccessRate
+from agent_sre.integrations.sentry import SentryExporter
+
+slo = SLO(
+    name="support-bot",
+    indicators=[TaskSuccessRate(target=0.95, window="24h")],
+    error_budget=ErrorBudget(total=0.05),
+)
+
+# Offline mode (test/dev)
+exporter = SentryExporter()
+exporter.capture_incident(
+    title="Canary rollback triggered",
+    severity="warning",
+    tags={"agent_id": "support-bot", "env": "staging"},
+)
+
+# Capture exceptions with context
+try:
+    raise RuntimeError("tool timeout")
+except RuntimeError as err:
+    exporter.capture_exception(
+        err,
+        tags={"agent_id": "support-bot"},
+        context={"tool": "search"},
+    )
+
+# Capture structured SLO breach context
+exporter.capture_slo_breach(slo, agent_id="support-bot")
+```
+
+For production, pass a configured Sentry client or `dsn`:
+
+```python
+exporter = SentryExporter(
+    dsn="https://<key>@o0.ingest.sentry.io/<project>",
+    environment="prod",
+    release="support-bot@1.4.2",
+)
+```
